@@ -1,6 +1,7 @@
 export default function Signup() {
+    const API_DOMAIN = process.env.REACT_APP_API_DOMAIN;
     return (
-        <form className="form-example" method="POST">
+        <form className="form-example" action={`${API_DOMAIN}/signup`} method="POST">
             <div className="form-example">
                 <label htmlFor="firstName">Enter your first name: (Required)</label>
                 <input type="text" name="firstName" id="firstName" required />
