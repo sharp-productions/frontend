@@ -17,7 +17,7 @@ export default function Login() {
         const formData = new FormData();
         formData.append("email", email);
         formData.append("password", password);
-        fetch(`${API_DOMAIN}/custom-login`, {
+        fetch(`${API_DOMAIN}/login`, {
             method: 'POST',
             credentials: 'include',
             headers: {
