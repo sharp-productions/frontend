@@ -1,7 +1,9 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function Login() {
     const [state, setState] = useState({});
+    const navigate = useNavigate();
 
     const handleInput = function({ target }) {
         const {name, value} = target
@@ -29,7 +31,7 @@ export default function Login() {
         .then((response) => {
             // wait for promise to resolve
             if (response.status === 201) {
-                return response.json()
+                navigate("/docket");
             }
             // error message is text (currently)
             return response.text()

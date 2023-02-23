@@ -1,7 +1,9 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function Signup() {
     const [state, setState] = useState({});
+    const navigate = useNavigate();
 
     const handleInput = function({ target }) {
         const {name, value} = target
@@ -29,19 +31,14 @@ export default function Signup() {
             body: new URLSearchParams(formData)
         })
         .then((response) => {
-            // wait for promise to resolve
             if (response.status === 201) {
-                return response.json()
+                navigate("/login");
             }
-            // error message is text (currently)
+            // TODO: display error message (which is currently text) in a toast
             return response.text()
         })
-        .then((result) => {
-          // Do things with result
-          console.log(result);
-        })
         .catch(error => {
-            console.log("error:", error);            
+            // TODO: display error message (which is currently text) in a toast
         });
     }
 
