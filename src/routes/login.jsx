@@ -102,12 +102,6 @@ export default function Login() {
                         <input type="password" name="password" className="form-control" id="password" placeholder="Password" onChange={handleInput} required />
                         <label htmlFor="password">Enter your password:</label>
                     </div>
-
-                    <div className="checkbox mb-3">
-                        <label>
-                            <input type="checkbox" value="remember-me" /> Remember me
-                        </label>
-                    </div>
                     <button className="w-100 btn btn-lg btn-primary" type="button" onClick={handleSubmit}>Sign in</button>
                     <p className="mt-5 mb-3 text-body-secondary">&copy; 2023</p>
                 </form>
