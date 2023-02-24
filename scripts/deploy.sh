@@ -4,7 +4,7 @@
 npm run build
 tar -zcvf build.tar.gz build
 # Copy the tarball to PROD box
-scp build.tar.gz root@easylegal.app:/root
+scp build.tar.gz root@www.easylegal.app:/root
 
 # # Login to production box and create new release directory
 if [ -z "$1" ]; 
@@ -13,5 +13,5 @@ then
     exit 1;
 fi
 FRONTEND_RELEASE_ID=$1
-ssh -T root@easylegal.app 'sh -s' < ./scripts/remote.sh $FRONTEND_RELEASE_ID
+ssh -T root@www.easylegal.app 'sh -s' < ./scripts/remote.sh $FRONTEND_RELEASE_ID
     
