@@ -1,11 +1,11 @@
 import Header from "../components/header";
 
-export default function Docket() {
+export default function Cases() {
     return (
         <>
             <Header />
             <div>
-                This is the Docket route.
+                This is the Cases route.
             </div>
         </>
     );

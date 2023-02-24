@@ -2,15 +2,33 @@ import {
   createBrowserRouter,
   RouterProvider,
 } from "react-router-dom";
-import Docket from "./routes/docket";
-import Home from "./routes/home";
-import Login from "./routes/login";
-import Signup from "./routes/signup";
+import {
+  Cases,
+  Clients,
+  Docket,
+  Finances,
+  Home,
+  Login,
+  Signup,
+  Terms
+} from "./routes";
 
 const router = createBrowserRouter([
   {
+    path: "/cases",
+    element: <Cases />
+  },
+  {
+    path: "/clients",
+    element: <Clients />
+  },
+  {
     path: "/docket",
     element: <Docket />
+  },
+  {
+    path: "/finances",
+    element: <Finances />
   },
   {
     path: "/",
@@ -23,6 +41,10 @@ const router = createBrowserRouter([
   {
     path: "/signup",
     element: <Signup />
+  },
+  {
+    path: "/terms",
+    element: <Terms />
   }
 ]);
 

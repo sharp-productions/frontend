@@ -1,11 +1,11 @@
 import Header from "../components/header";
 
-export default function Docket() {
+export default function Finances() {
     return (
         <>
             <Header />
             <div>
-                This is the Docket route.
+                This is the Finances route.
             </div>
         </>
     );
