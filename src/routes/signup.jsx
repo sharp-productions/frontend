@@ -96,15 +96,15 @@ export default function Signup() {
                     <h1 className="h3 mb-3 fw-normal">Please enter your information</h1>
 
                     <div className="form-floating">
-                        <input type="text" name="firstName" className="form-control first" id="firstName" onChange={handleInput} required />
+                        <input type="text" name="firstName" className="form-control first" id="firstName" onChange={handleInput} placeholder="John" equired />
                         <label htmlFor="firstName">Enter your first name:</label>
                     </div>
                     <div className="form-floating">
-                        <input type="text" name="lastName" className="form-control" id="lastName" onChange={handleInput} required />
+                        <input type="text" name="lastName" className="form-control" id="lastName" onChange={handleInput} placeholder="Smith" equired />
                         <label htmlFor="lastName">Enter your last name:</label>
                     </div>
                     <div className="form-floating">
-                        <input type="phone" name="phone" className="form-control" id="phone" onChange={handleInput} required />
+                        <input type="phone" name="phone" className="form-control" id="phone" onChange={handleInput} placeholder="(555)555-5555" required />
                         <label htmlFor="phone">Enter your phone number:</label>
                     </div>
                     <div className="form-floating">

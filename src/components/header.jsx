@@ -1,4 +1,29 @@
+import { useNavigate } from "react-router-dom";
+
 export default function Header() {
+    const API_DOMAIN = process.env.REACT_APP_API_DOMAIN;
+
+    const navigate = useNavigate();
+
+    function logout() {
+        fetch(`${API_DOMAIN}/logout`, {
+            method: 'POST',
+            credentials: 'include',
+            body: new URLSearchParams()
+        })
+            .then((response) => response.status)
+            .then(status => {
+                if (status === 204) {
+                    navigate("/login");
+                }
+                // TODO: create error toast
+            })
+            .catch(error => {
+                // TODO: create error toast
+                console.log("error:", error);
+            });
+    }
+
     return (
         <>
             <svg xmlns="http://www.w3.org/2000/svg" style={{ display: "none" }}>
@@ -37,7 +62,7 @@ export default function Header() {
                             </ul>
                         </div>
                         <div className="col-md-1 text-end">
-                            <button type="button" className="btn btn-outline-primary me-2">Logout</button>
+                            <button type="button" className="btn btn-outline-primary me-2" onClick={logout}>Logout</button>
                         </div>
                     </div>
                 </div>
