@@ -1,9 +1,17 @@
 import { useState } from "react";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
-export default function Login() {
-    const [state, setState] = useState({});
-    const navigate = useNavigate();
+import { authenticate } from "./loginAPI";
+
+export function Login() {
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
+
+    const [state, setState] = useState({
+        email: "",
+        password: ""
+    });
 
     const handleInput = function ({ target }) {
         const { name, value } = target
@@ -13,37 +21,17 @@ export default function Login() {
         })
     }
 
-    const handleSubmit = function () {
+    const handleSubmit = async () => {
         const { email, password } = state;
-        const API_DOMAIN = process.env.REACT_APP_API_DOMAIN;
         const formData = new FormData();
         formData.append("email", email);
         formData.append("password", password);
-        fetch(`${API_DOMAIN}/login`, {
-            method: 'POST',
-            credentials: 'include',
-            headers: {
-                "Content-Type": "application/x-www-form-urlencoded",
-                "Accepts": "application/json",
-            },
-            body: new URLSearchParams(formData)
-        })
-            .then((response) => {
-                // wait for promise to resolve
-                if (response.status === 201) {
-                    navigate("/docket");
-                }
-                // error message is text (currently)
-                return response.text()
-            })
-            .then((result) => {
-                // Do things with result
-                console.log(result);
-            })
-            .catch(error => {
-                console.log("error:", error);
-
-            });
+        try {
+            await dispatch(authenticate(formData)).unwrap();
+            navigate("/docket")
+        } catch (error) {
+            // TODO: create proper error message
+        }
     }
 
     return (

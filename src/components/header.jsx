@@ -1,6 +1,6 @@
-import { useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 
-export default function Header() {
+export const Header = function() {
     const API_DOMAIN = process.env.REACT_APP_API_DOMAIN;
 
     const navigate = useNavigate();
@@ -24,8 +24,23 @@ export default function Header() {
             });
     }
 
+    const pages = [
+        "docket",
+        "clients",
+        "cases",
+        "charges",
+        "events",
+        "finances",
+        "notes",
+        "tasks"
+    ]
     return (
         <>
+            <style>{`
+                .capitalize {
+                    text-transform: capitalize;
+                }
+            `}</style>
             <svg xmlns="http://www.w3.org/2000/svg" style={{ display: "none" }}>
                 <symbol id="bootstrap" viewBox="0 0 118 94">
                     <title>Bootstrap</title>
@@ -40,10 +55,21 @@ export default function Header() {
                         </a>
 
                         <ul className="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-                            <li><a href="/docket" className="nav-link px-2 link-secondary disabled">Docket</a></li>
+                            {pages.map(page => (
+                                <li>
+                                    <NavLink to={`/${page}`} className={({ isActive }) => isActive ? "nav-link px-2 link-secondary disabled": "nav-link px-2 link-body-emphasis"} >
+                                        <span className="capitalize">{page}</span>
+                                    </NavLink>
+                                </li>
+                            ))}
+                            {/* <li><a href="/docket" className="nav-link px-2 link-secondary disabled">Docket</a></li>
                             <li><a href="/clients" className="nav-link px-2 link-body-emphasis">Clients</a></li>
                             <li><a href="/cases" className="nav-link px-2 link-body-emphasis">Cases</a></li>
+                            <li><a href="/charges" className="nav-link px-2 link-body-emphasis">Charges</a></li>
+                            <li><a href="/events" className="nav-link px-2 link-body-emphasis">Events</a></li>
                             <li><a href="/finances" className="nav-link px-2 link-body-emphasis">Finances</a></li>
+                            <li><a href="/notes" className="nav-link px-2 link-body-emphasis">Notes</a></li>
+                            <li><a href="/tasks" className="nav-link px-2 link-body-emphasis">Tasks</a></li> */}
                         </ul>
 
                         <form className="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
@@ -51,7 +77,7 @@ export default function Header() {
                         </form>
 
                         <div className="dropdown text-end">
-                            <a href="#" className="d-block link-dark text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                            <a href="/profile" className="d-block link-dark text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                                 <img src="https://github.com/mdo.png" alt="mdo" width="32" height="32" className="rounded-circle" />
                             </a>
                             <ul className="dropdown-menu text-small">

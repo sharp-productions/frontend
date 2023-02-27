@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-export default function Signup() {
+export const Signup = () => {
     const [state, setState] = useState({agreed: false});
     const navigate = useNavigate();
 

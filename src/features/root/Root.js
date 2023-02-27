@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-export default function Home() {
+export const Root = () => {
 
     const [state, setState] = useState({agreed: false});
 
