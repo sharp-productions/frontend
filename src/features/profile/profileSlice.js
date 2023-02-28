@@ -31,6 +31,7 @@ export const profileSlice = createSlice({
   },
   extraReducers(builder) {
     builder
+    // authenticate call is made from Login.js
     .addCase(authenticate.fulfilled, (state, action) => {
       state.profile = action.payload
       localStorage.setItem("profile", JSON.stringify(action.payload))

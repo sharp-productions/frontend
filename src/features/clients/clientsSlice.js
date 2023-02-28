@@ -1,11 +1,11 @@
 import { /* createAsyncThunk, */ createSlice } from '@reduxjs/toolkit';
-// import {
-//   createClient,
+import {
+  createClient,
 //   deleteClient,
 //   getClient,
-//   getClients,
+  getClients,
 //   updateClient
-// } from './clientsAPI';
+} from './clientsAPI';
 
 const initialState = [];
 
@@ -13,29 +13,15 @@ export const clientsSlice = createSlice({
   name: 'clients',
   initialState,
   // The `reducers` field lets us define reducers and generate associated actions
-  reducers: {
-    clientAdded: (state, action) => {
-      state.push(action.payload);
-    },
-    clientUpdated: {
-      reducer(state, action) {
-
-      },
-      prepare(id, firstName, lastName, email, phone, city, staet /* "state" would be overloaded */, street, zip) {
-        return {
-          payload: {
-            id,
-            firstName,
-            lastName,
-            phone,
-            city,
-            state: staet,
-            street,
-            zip
-          }
-        }
-      }
-    }
+  reducers: {},
+  extraReducers(builder) {
+    builder
+    .addCase(getClients.fulfilled, (state, action) => {
+      state.clients = action.payload
+    })
+    .addCase(createClient.fulfilled, (state, action) => {
+      state.clients.push(action.payload)      
+    })
   }
 });
 

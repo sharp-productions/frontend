@@ -19,12 +19,16 @@ export const Docket = () => {
                     width: 30px;
                     fill: gray;
                 }
+                .card-center {
+                    margin-left: auto;
+                    margin-right: auto;
+                }
             `}</style>
             <Header />
             <div className="container">
                 <h1>Hi {profile.firstName} 👋</h1>
                 <h2>Welcome to EasyLegal.app, your cloud-based case manager</h2>
-                <div className="card w-75 mb-3">
+                <div className="card w-75 mb-3 card-center">
                     <div className="card-header">
                         <h2 style={{ display: "inline" }}>Step 1: Create a client</h2>
                     </div>
@@ -34,7 +38,7 @@ export const Docket = () => {
                         <a href="/clients" className="btn btn-primary">Create Client</a>
                     </div>
                 </div>
-                <div className="card w-75 mb-3">
+                <div className="card w-75 mb-3 card-center">
                     <div className="card-header">
                         <h2 style={{ display: "inline" }}>Step 2: Create a case</h2>
                     </div>
@@ -46,7 +50,7 @@ export const Docket = () => {
                     </div>
                 </div>
                 {/* <div className="row"> */}
-                <div className="card w-75 mb-3">
+                <div className="card w-75 mb-3 card-center">
                     <div className="card-header">
                         <h2 style={{ display: "inline" }}>Step 3: Add Events, Tasks, and Notes</h2>
                     </div>
