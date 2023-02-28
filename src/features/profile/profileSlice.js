@@ -33,6 +33,7 @@ export const profileSlice = createSlice({
     builder
     .addCase(authenticate.fulfilled, (state, action) => {
       state.profile = action.payload
+      localStorage.setItem("profile", JSON.stringify(action.payload))
     })
   }
 });

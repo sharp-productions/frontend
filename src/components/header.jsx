@@ -56,7 +56,7 @@ export const Header = function() {
 
                         <ul className="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
                             {pages.map(page => (
-                                <li>
+                                <li key={page}>
                                     <NavLink to={`/${page}`} className={({ isActive }) => isActive ? "nav-link px-2 link-secondary disabled": "nav-link px-2 link-body-emphasis"} >
                                         <span className="capitalize">{page}</span>
                                     </NavLink>
