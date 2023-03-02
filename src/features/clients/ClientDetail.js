@@ -1,12 +1,16 @@
 import { useSelector } from "react-redux"
+import { useParams } from "react-router-dom"
 
 import { Header } from "../../components/header"
 
-export const ClientDetail = ({ match }) => {
-    const { clientId } = match.params
+export const ClientDetail = () => {
+    const params = useParams();
+    const { clientId } = params;
 
     const client = useSelector(state =>
-        state.clients.find(client => client.id === clientId)
+        state.clients.find(client => {
+            return client.id === +clientId
+        })
     )
 
     if (!client) {
@@ -25,14 +29,14 @@ export const ClientDetail = ({ match }) => {
             <Header />
             <section>
                 <article className="post">
-                    <h2>Client: `${client.firstName} ${client.lastName}`</h2>
+                    <h2>Client: {client.firstName} {client.lastName}</h2>
                     <p>DOB: {client.dob}</p>
                     <p>Phone: {client.phone}</p>
                     <p>Email: {client.email}</p>
                     <p>Referral Source: {client.referralSource}</p>
                     <div>
                         <p>{client.street}</p>
-                        <p>`${client.city}, ${client.staet}  ${client.zip}`</p>
+                        <p>{client.city}, {client.state}  {client.zip}</p>
                     </div>
                 </article>
             </section>

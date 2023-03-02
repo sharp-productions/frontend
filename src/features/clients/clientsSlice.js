@@ -1,10 +1,7 @@
-import { /* createAsyncThunk, */ createSlice } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 import {
   createClient,
-//   deleteClient,
-//   getClient,
-  getClients,
-//   updateClient
+  getClients
 } from './clientsAPI';
 
 const initialState = [];
@@ -17,14 +14,14 @@ export const clientsSlice = createSlice({
   extraReducers(builder) {
     builder
     .addCase(getClients.fulfilled, (state, action) => {
-      state.clients = action.payload
+      return action.payload
     })
     .addCase(createClient.fulfilled, (state, action) => {
-      state.clients.push(action.payload)      
+      state = state.push(action.payload)      
     })
   }
 });
 
-export const { clientAdded, clientUpdated } = clientsSlice.actions;
+// export const { } = clientsSlice.actions;
 
 export default clientsSlice.reducer;

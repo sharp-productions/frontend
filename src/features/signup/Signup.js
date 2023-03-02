@@ -96,11 +96,11 @@ export const Signup = () => {
                     <h1 className="h3 mb-3 fw-normal">Please enter your information</h1>
 
                     <div className="form-floating">
-                        <input type="text" name="firstName" className="form-control first" id="firstName" onChange={handleInput} placeholder="John" equired />
+                        <input type="text" name="firstName" className="form-control first" id="firstName" onChange={handleInput} placeholder="John" required />
                         <label htmlFor="firstName">Enter your first name:</label>
                     </div>
                     <div className="form-floating">
-                        <input type="text" name="lastName" className="form-control" id="lastName" onChange={handleInput} placeholder="Smith" equired />
+                        <input type="text" name="lastName" className="form-control" id="lastName" onChange={handleInput} placeholder="Smith" required />
                         <label htmlFor="lastName">Enter your last name:</label>
                     </div>
                     <div className="form-floating">

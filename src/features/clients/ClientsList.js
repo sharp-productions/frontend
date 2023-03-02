@@ -1,13 +1,20 @@
-import React, { useState } from 'react'
-import { useSelector } from 'react-redux'
+import React, { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 
 import { Header } from '../../components/header'
 import { AddClientForm } from './AddClientForm'
+import { getClients } from './clientsAPI'
 
 export const ClientsList = () => {
+    const dispatch = useDispatch()
     const clients = useSelector(state => state.clients)
     const [showAddClientForm, setShowAddClientForm] = useState(false)
+
+    useEffect(() => {
+        dispatch(getClients())
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
 
     const toggleShowAddClientForm = () => {
         setShowAddClientForm(!showAddClientForm)
@@ -22,11 +29,8 @@ export const ClientsList = () => {
                         margin-top: 20px;
                     }
                     `}</style>
-                    <div>
-                        You haven't added any clients yet. Would you like to create one?
-                    </div>
                     <div className="client-empty-state-create-client">
-                        <button type="button" onClick={toggleShowAddClientForm}>Create Client</button>
+                    You haven't added any clients yet. Would you like to create one?    
                     </div>
                     <div className="model-backdrop show" />
                 </div>
@@ -35,9 +39,7 @@ export const ClientsList = () => {
             return (
                 clients.map(client => (
                     <article className="post-excerpt" key={client.id}>
-                        <h3>{client.title}</h3>
-                        <p className="post-content">{client.id}</p>
-                        <Link to={`/clients/${client.id}`} className="button muted-button">View Client</Link>
+                        <Link to={`/clients/${client.id}`} className="button muted-button">{client.firstName} {client.lastName}</Link>
                     </article>
                 ))
             )
@@ -48,7 +50,7 @@ export const ClientsList = () => {
         <div className="modal-open">
             <Header />
             <section className="posts-list">
-                <h2>Clients</h2>
+                <h2>Clients</h2><button type="button" onClick={toggleShowAddClientForm}>Create Client</button>
                 {renderedClients()}
             </section>
             {showAddClientForm && <AddClientForm closeHandler={toggleShowAddClientForm} />}

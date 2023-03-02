@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
 
-import { clientAdded } from './clientsSlice'
+import { createClient } from './clientsAPI'
 
 export const AddClientForm = ({ closeHandler }) => {
     const [state, setState] = useState({
@@ -11,7 +11,8 @@ export const AddClientForm = ({ closeHandler }) => {
         phone: "",
         email: "",
         referralSource: "",
-        street: "",
+        address1: "",
+        address2: "",
         city: "",
         staet: "",
         zip: ""
@@ -36,21 +37,23 @@ export const AddClientForm = ({ closeHandler }) => {
                 phone,
                 email,
                 referralSource,
-                street,
+                address1,
+                address2,
                 city,
                 staet,
                 zip
             } = state
 
             dispatch(
-                clientAdded({
+                createClient({
                     firstName,
                     lastName,
                     dob,
                     phone,
                     email,
                     referralSource,
-                    street,
+                    address1,
+                    address2,
                     city,
                     staet,
                     zip
@@ -63,11 +66,13 @@ export const AddClientForm = ({ closeHandler }) => {
                 phone: "",
                 email: "",
                 referralSource: "",
-                street: "",
+                address1: "",
+                address2: "",
                 city: "",
                 staet: "",
                 zip: ""
             })
+            closeHandler()
         }
     }
 

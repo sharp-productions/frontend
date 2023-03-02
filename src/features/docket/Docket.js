@@ -5,7 +5,11 @@ import { Header } from "../../components/header";
 
 
 export const Docket = () => {
-    const profile = useSelector(state => state.profile.profile) || JSON.parse(localStorage.getItem("profile"))
+    let profile = useSelector(state => state.profile)
+    // Give Docket access to profile on page reload.
+    if (Object.keys(profile).length === 0) {
+        profile = JSON.parse(localStorage.getItem("profile"))
+    }
 
     return (
         <>

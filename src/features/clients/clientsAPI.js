@@ -2,14 +2,10 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 
 const API_DOMAIN = process.env.REACT_APP_API_DOMAIN
 
-export const createClient = createAsyncThunk('clients/create', async (formData) => {
+export const createClient = createAsyncThunk('clients/createClient', async (formData) => {
     const response = await fetch(`${API_DOMAIN}/clients`, {
         method: 'POST',
         credentials: 'include',
-        headers: {
-            "Content-Type": "application/x-www-form-urlencoded",
-            "Accepts": "application/json",
-        },
         body: new URLSearchParams(formData)
     })
     return response.json();
@@ -18,10 +14,7 @@ export const createClient = createAsyncThunk('clients/create', async (formData) 
 export const getClients = createAsyncThunk('clients/getClients', async () => {
     const response = await fetch(`${API_DOMAIN}/clients`, {
         method: 'GET',
-        credentials: 'include',
-        headers: {
-            "Accepts": "application/json",
-        }
+        credentials: 'include'
     })
     return response.json();
 })
