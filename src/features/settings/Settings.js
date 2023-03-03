@@ -2,7 +2,7 @@ import { useSelector } from "react-redux"
 
 import { Header } from "../../components/header"
 
-export const SettingsDetail = ({ match }) => {
+export const Settings = ({ match }) => {
 
     const settings = useSelector(state => state.settings)
 
@@ -22,7 +22,7 @@ export const SettingsDetail = ({ match }) => {
             <Header />
             <section>
                 <article className="post">
-                    <h2>Settings</h2>
+                    <h2>This is the Settings view.</h2>
                 </article>
             </section>
         </>

@@ -1,8 +1,12 @@
 import { useState } from "react";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+
+import { signup } from "./signupAPI";
 
 export const Signup = () => {
     const [state, setState] = useState({agreed: false});
+    const dispatch = useDispatch();
     const navigate = useNavigate();
 
     const handleInput = function ({ target }) {
@@ -14,33 +18,19 @@ export const Signup = () => {
         })
     }
 
-    const handleSubmit = function () {
+    const handleSubmit = async () => {
         const { firstName, lastName, email, password } = state;
-        const API_DOMAIN = process.env.REACT_APP_API_DOMAIN;
         const formData = new FormData();
         formData.append("firstName", firstName);
         formData.append("lastName", lastName);
         formData.append("email", email);
         formData.append("password", password);
-        fetch(`${API_DOMAIN}/signup`, {
-            method: 'POST',
-            credentials: 'include',
-            headers: {
-                "Content-Type": "application/x-www-form-urlencoded",
-                "Accepts": "application/json"
-            },
-            body: new URLSearchParams(formData)
-        })
-            .then((response) => {
-                if (response.status === 201) {
-                    navigate("/login");
-                }
-                // TODO: display error message (which is currently text) in a toast
-                return response.text()
-            })
-            .catch(error => {
-                // TODO: display error message (which is currently text) in a toast
-            });
+        try {
+            await dispatch(signup(formData)).unwrap();
+            navigate("/login");
+        } catch (error) {
+            // TODO: create proper error message
+        }        
     }
 
     return (

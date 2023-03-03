@@ -1,38 +1,19 @@
-import { NavLink, useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { NavLink } from "react-router-dom";
 
-export const Header = function() {
-    const API_DOMAIN = process.env.REACT_APP_API_DOMAIN;
 
-    const navigate = useNavigate();
+export const Header = function () {
+    const [isToggleOpen, setIsToggleOpen] = useState(false);
 
-    function logout() {
-        fetch(`${API_DOMAIN}/logout`, {
-            method: 'POST',
-            credentials: 'include',
-            body: new URLSearchParams()
-        })
-            .then((response) => response.status)
-            .then(status => {
-                if (status === 204) {
-                    navigate("/login");
-                }
-                // TODO: create error toast
-            })
-            .catch(error => {
-                // TODO: create error toast
-                console.log("error:", error);
-            });
+    const toggleDropdown = () => {
+        setIsToggleOpen(!isToggleOpen)
     }
 
     const pages = [
         "docket",
         "clients",
         "cases",
-        "charges",
-        "events",
         "finances",
-        "notes",
-        "tasks"
     ]
     return (
         <>
@@ -57,38 +38,29 @@ export const Header = function() {
                         <ul className="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
                             {pages.map(page => (
                                 <li key={page}>
-                                    <NavLink to={`/${page}`} className={({ isActive }) => isActive ? "nav-link px-2 link-secondary disabled": "nav-link px-2 link-body-emphasis"} >
+                                    <NavLink to={`/${page}`} className={({ isActive }) => isActive ? "nav-link px-2 link-secondary disabled" : "nav-link px-2 link-body-emphasis"} >
                                         <span className="capitalize">{page}</span>
                                     </NavLink>
                                 </li>
                             ))}
-                            {/* <li><a href="/docket" className="nav-link px-2 link-secondary disabled">Docket</a></li>
-                            <li><a href="/clients" className="nav-link px-2 link-body-emphasis">Clients</a></li>
-                            <li><a href="/cases" className="nav-link px-2 link-body-emphasis">Cases</a></li>
-                            <li><a href="/charges" className="nav-link px-2 link-body-emphasis">Charges</a></li>
-                            <li><a href="/events" className="nav-link px-2 link-body-emphasis">Events</a></li>
-                            <li><a href="/finances" className="nav-link px-2 link-body-emphasis">Finances</a></li>
-                            <li><a href="/notes" className="nav-link px-2 link-body-emphasis">Notes</a></li>
-                            <li><a href="/tasks" className="nav-link px-2 link-body-emphasis">Tasks</a></li> */}
                         </ul>
 
-                        <form className="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
+                        {/* <form className="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
                             <input type="search" className="form-control" placeholder="Search..." aria-label="Search" />
-                        </form>
+                        </form> */}
 
                         <div className="dropdown text-end">
-                            <a href="/profile" className="d-block link-dark text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                                <img src="https://github.com/mdo.png" alt="mdo" width="32" height="32" className="rounded-circle" />
-                            </a>
-                            <ul className="dropdown-menu text-small">
+                            <button type="button" 
+                                className={`btn btn-outline-primary dropdown-toggle ${isToggleOpen ? "show" : ""}`}
+                                data-bs-toggle="dropdown" 
+                                onClick={toggleDropdown}
+                                aria-expanded={isToggleOpen ? "true" : "false"}>Admin</button>
+                            <ul className={`dropdown-menu text-small ${isToggleOpen ? "show" : ""}`}>
                                 <li><a className="dropdown-item" href="/profile">Profile</a></li>
                                 <li><a className="dropdown-item" href="/settings">Settings</a></li>
                                 <li><hr className="dropdown-divider" /></li>
                                 <li><a className="dropdown-item" href="/logout">Logout</a></li>
                             </ul>
-                        </div>
-                        <div className="col-md-1 text-end">
-                            <button type="button" className="btn btn-outline-primary me-2" onClick={logout}>Logout</button>
                         </div>
                     </div>
                 </div>

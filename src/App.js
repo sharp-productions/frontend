@@ -17,9 +17,12 @@ import {
   FinancesList,
   FinancesOverview,
   Login,
+  Logout,
   NoteDetail,
   NotesList,
+  Profile,
   Root,
+  Settings,
   Signup,
   TaskDetail,
   TasksList,
@@ -91,6 +94,18 @@ const router = createBrowserRouter([
   {
     path: "/login",
     element: <Login />
+  },
+  {
+    path: "/logout",
+    element: <Logout />
+  },
+  {
+    path: "/profile",
+    element: <Profile />
+  },
+  {
+    path: "/settings",
+    element: <Settings />
   },
   {
     path: "/signup",

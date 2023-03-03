@@ -26,7 +26,7 @@ export function Login() {
         const formData = new FormData();
         formData.append("email", email);
         formData.append("password", password);
-        try {
+        try {            
             await dispatch(authenticate(formData)).unwrap();
             navigate("/docket")
         } catch (error) {

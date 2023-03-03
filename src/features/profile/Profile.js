@@ -2,7 +2,7 @@ import { useSelector } from "react-redux"
 
 import { Header } from "../../components/header"
 
-export const ProfileDetail = ({ match }) => {
+export const Profile = ({ match }) => {
 
     const profile = useSelector(state => state.profile)
 

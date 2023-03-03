@@ -11,11 +11,12 @@ import { FinancesDetail } from "./finances/FinancesDetail"
 import { FinancesList } from "./finances/FinancesList"
 import { FinancesOverview } from "./finances/FinancesOverview"
 import { Login } from "./login/Login"
+import { Logout } from "./logout/Logout"
 import { NoteDetail } from "./notes/NoteDetail"
 import { NotesList } from "./notes/NotesList"
 import { Root } from "./root/Root"
-import { ProfileDetail } from "./profile/ProfileDetail"
-import { SettingsDetail } from "./settings/SettingsDetail"
+import { Profile } from "./profile/Profile"
+import { Settings } from "./settings/Settings"
 import { Signup } from "./signup/Signup"
 import { TaskDetail } from "./tasks/TaskDetail"
 import { TasksList } from "./tasks/TasksList"
@@ -35,11 +36,12 @@ export {
     FinancesList,
     FinancesOverview,
     Login,
+    Logout,
     NoteDetail,
     NotesList,
     Root,
-    ProfileDetail,
-    SettingsDetail,
+    Profile,
+    Settings,
     Signup,
     TaskDetail,
     TasksList,
