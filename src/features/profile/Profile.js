@@ -27,7 +27,7 @@ export const Profile = ({ match }) => {
                     <p>Email: {profile.email}</p>
                     <div>
                         <p>{profile.address}</p>
-                        <p>{profile.city}, {profile.staet}  {profile.zip}</p>
+                        <p>{profile.city}, {profile.state}  {profile.zip}</p>
                     </div>
                 </article>
             </section>

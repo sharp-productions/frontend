@@ -19,14 +19,23 @@ export const getClients = createAsyncThunk('clients/getClients', async () => {
     return response.json();
 })
 
+export const getClient = createAsyncThunk('clients/getClient', async (clientId) => {
+    const response = await fetch(`${API_DOMAIN}/clients/${clientId}`, {
+        method: 'GET',
+        credentials: 'include'
+    })
+    return response.json();
+})
+
 export const deleteClient = (clientId) => {
 
 }
 
-export const getClient = (clientId) => {
-
-}
-
-export const updateClient = (clientId) => {
-
-}
+export const updateClient = createAsyncThunk('clients/updateClient', async (formData) => {
+    const response = await fetch(`${API_DOMAIN}/clients/${formData.id}`, {
+        method: 'PUT',
+        credentials: 'include',
+        body: new URLSearchParams(formData)
+    })
+    return response.json();
+})

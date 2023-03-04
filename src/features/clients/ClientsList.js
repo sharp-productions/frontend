@@ -3,57 +3,100 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 
 import { Header } from '../../components/header'
-import { AddClientForm } from './AddClientForm'
+import { ClientInputForm } from './ClientInputForm'
 import { getClients } from './clientsAPI'
 
 export const ClientsList = () => {
-    const dispatch = useDispatch()
+
     const clients = useSelector(state => state.clients)
+    const dispatch = useDispatch()
+
     const [showAddClientForm, setShowAddClientForm] = useState(false)
 
     useEffect(() => {
         dispatch(getClients())
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     const toggleShowAddClientForm = () => {
         setShowAddClientForm(!showAddClientForm)
     }
 
-    const renderedClients = () => {
-        if (clients.length === 0) {
-            return (
-                <div className="modal-open">
-                    <style>{`
-                    .client-empty-state-create-client {
-                        margin-top: 20px;
-                    }
-                    `}</style>
-                    <div className="client-empty-state-create-client">
-                    You haven't added any clients yet. Would you like to create one?    
-                    </div>
-                    <div className="model-backdrop show" />
+    const emptyState = () => {
+        return (
+            <div className="modal-open">
+                <style>{`
+                .client-empty-state-create-client {
+                    margin-top: 20px;
+                }
+                `}</style>
+                <div className="client-empty-state-create-client">
+                    You haven't added any clients yet. Would you like to create one?
                 </div>
-            )
-        } else {
-            return (
-                clients.map(client => (
-                    <article className="post-excerpt" key={client.id}>
-                        <Link to={`/clients/${client.id}`} className="button muted-button">{client.firstName} {client.lastName}</Link>
-                    </article>
-                ))
-            )
-        }
+                <div className="model-backdrop show" />
+            </div>
+        )
+    }
+
+    const renderedClients = () => {
+        return (
+            clients.map(client => (
+
+                <Link key={client.id} to={`/clients/${client.id}`} >
+                    {/* <a key={client.id} href={`/clients/${client.id}`}></a> */}
+                    <div className="row">
+                        <div className="col-3 td">{client.lastName}</div>
+                        <div className="col-3 td" >{client.firstName}</div>
+                        <div className="col-3 td" >{client.phone}</div>
+                        <div className="col-3 td" >{client.email}</div>
+                    </div >
+                    {/* </a> */}
+                </Link >
+
+            ))
+        )
     }
 
     return (
         <div className="modal-open">
+            <style>{`
+                .table-hover div.row:hover {
+                    background-color: #ececec;
+                }
+                .table-hover .th div.row:hover {
+                    background-color: inherit;
+                }
+                .table .row {
+                    border-top: 1px solid #dee2e6;
+                }
+                .table .th .row {
+                    border-top: none;
+                }
+                .table a .row .td {
+                    display: inline;
+                    color: black;
+                }
+                .table  a {
+                    text-decoration: none;
+                }
+            `}</style>
             <Header />
-            <section className="posts-list">
-                <h2>Clients</h2><button type="button" onClick={toggleShowAddClientForm}>Create Client</button>
-                {renderedClients()}
-            </section>
-            {showAddClientForm && <AddClientForm closeHandler={toggleShowAddClientForm} />}
+            <h2>Clients</h2><button type="button" onClick={toggleShowAddClientForm}>Create Client</button>
+            <div className="container table table-hover">
+                <div className="th">
+                    <div className="row">
+                        <div className="col-3 td">Last Name</div>
+                        <div className="col-3 td">Preferred Name</div>
+                        <div className="col-3 td">Phone</div>
+                        <div className="col-3 td">Email</div>
+                    </div>
+                </div>
+                <div className="tbody">
+                    {renderedClients()}
+                </div>
+            </div>
+            {clients.length === 0 && emptyState()}
+            {showAddClientForm && <ClientInputForm mode="add" closeHandler={toggleShowAddClientForm} />}
         </div>
     )
 }

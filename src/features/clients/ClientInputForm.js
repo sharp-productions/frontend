@@ -1,75 +1,56 @@
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
 
-import { createClient } from './clientsAPI'
+import { createClient, updateClient } from './clientsAPI'
 
-export const AddClientForm = ({ closeHandler }) => {
-    const [state, setState] = useState({
-        firstName: "",
-        lastName: "",
-        dob: "",
-        phone: "",
-        email: "",
-        referralSource: "",
-        address1: "",
-        address2: "",
-        city: "",
-        staet: "",
-        zip: ""
+export const ClientInputForm = ({ closeHandler, mode, client }) => {
+    client = client || {}
+    const [clientState, setClientState] = useState({
+                id: client.id || "",
+                firstName: client.firstName || "",
+                lastName: client.lastName || "",
+                dob: client.dob || "",
+                email: client.email || "",
+                phone: client.phone || "",
+                referralSource: client.referralSource || "",
+                address1: client.address1 || "",
+                address2: client.address2 || "",
+                city: client.city || "",
+                state: client.state || "",
+                zip: client.zip || ""
     })
+    console.log("MODE: ", mode)
 
     const dispatch = useDispatch()
 
     const onInputChanged = ({ target }) => {
         const { name, value } = target
-        setState({
-            ...state,
+        setClientState({
+            ...clientState,
             [name]: value
         })
     }
 
     const onSaveClientClicked = () => {
-        if (state.firstName && state.lastName && (state.phone || state.email)) {
-            const {
-                firstName,
-                lastName,
-                dob,
-                phone,
-                email,
-                referralSource,
-                address1,
-                address2,
-                city,
-                staet,
-                zip
-            } = state
-
-            dispatch(
-                createClient({
-                    firstName,
-                    lastName,
-                    dob,
-                    phone,
-                    email,
-                    referralSource,
-                    address1,
-                    address2,
-                    city,
-                    staet,
-                    zip
-                })
-            )
-            setState({
+        if (clientState.firstName && clientState.lastName && (clientState.phone || clientState.email)) {
+            if (mode === "add") {
+                delete clientState.id
+                dispatch(createClient(clientState))
+            } else {
+                dispatch(updateClient(clientState))
+            }
+            setClientState({
+                id: "",
                 firstName: "",
                 lastName: "",
                 dob: "",
-                phone: "",
                 email: "",
+                phone: "",
                 referralSource: "",
                 address1: "",
                 address2: "",
                 city: "",
-                staet: "",
+                state: "",
                 zip: ""
             })
             closeHandler()
@@ -88,12 +69,12 @@ export const AddClientForm = ({ closeHandler }) => {
                 <div className="modal-dialog modal-lg">
                     <div className="modal-content">
                         <div className="modal-header">
-                            <h1 className="modal-title fs-5" id="exampleModalLabel">Create Client</h1>
+                            <h1 className="modal-title fs-5" id="exampleModalLabel">{mode === "add" ? "Create" : "Edit"} Client</h1>
                             <button type="button" className="btn-close" onClick={closeHandler}></button>
                         </div>
                         <div className="modal-body">
                             <div className="col-md-7 col-lg-8 center">
-                                <h2>Add a New Client</h2>
+                                <h2>{"mode" === "add" ? "Add a New Client" : "Client Details"}</h2>
                                 <form className="needs-validation" noValidate>
                                     <div className="row g-3">
                                         <div className="col-sm-6">
@@ -103,7 +84,7 @@ export const AddClientForm = ({ closeHandler }) => {
                                                 className="form-control"
                                                 id="firstName"
                                                 name="firstName"
-                                                value={state.firstName}
+                                                value={clientState.firstName}
                                                 onChange={onInputChanged}
                                             />
                                         </div>
@@ -114,7 +95,7 @@ export const AddClientForm = ({ closeHandler }) => {
                                                 className="form-control"
                                                 id="lastName"
                                                 name="lastName"
-                                                value={state.lastName}
+                                                value={clientState.lastName}
                                                 onChange={onInputChanged}
                                             />
                                         </div>
@@ -125,7 +106,7 @@ export const AddClientForm = ({ closeHandler }) => {
                                                 className="form-control"
                                                 id="dob"
                                                 name="dob"
-                                                value={state.dob}
+                                                value={clientState.dob}
                                                 onChange={onInputChanged}
                                             />
                                         </div>
@@ -136,7 +117,7 @@ export const AddClientForm = ({ closeHandler }) => {
                                                 className="form-control"
                                                 id="email"
                                                 name="email"
-                                                value={state.email}
+                                                value={clientState.email}
                                                 onChange={onInputChanged}
                                             />
                                         </div>
@@ -147,7 +128,7 @@ export const AddClientForm = ({ closeHandler }) => {
                                                 className="form-control"
                                                 id="phone"
                                                 name="phone"
-                                                value={state.phone}
+                                                value={clientState.phone}
                                                 onChange={onInputChanged}
                                             />
                                         </div >
@@ -158,18 +139,29 @@ export const AddClientForm = ({ closeHandler }) => {
                                                 className="form-control"
                                                 id="referralSource"
                                                 name="referralSource"
-                                                value={state.referralSource}
+                                                value={clientState.referralSource}
                                                 onChange={onInputChanged}
                                             />
                                         </div >
                                         <div className="col-sm-12">
-                                            <label htmlFor="street" className="form-label">Street Address:</label>
+                                            <label htmlFor="address1" className="form-label">Address 1:</label>
                                             <input
                                                 type="text"
                                                 className="form-control"
-                                                id="street"
-                                                name="street"
-                                                value={state.street}
+                                                id="address1"
+                                                name="address1"
+                                                value={clientState.address1}
+                                                onChange={onInputChanged}
+                                            />
+                                        </div >
+                                        <div className="col-sm-12">
+                                            <label htmlFor="address2" className="form-label">Address 2:</label>
+                                            <input
+                                                type="text"
+                                                className="form-control"
+                                                id="address2"
+                                                name="address2"
+                                                value={clientState.address2}
                                                 onChange={onInputChanged}
                                             />
                                         </div >
@@ -180,29 +172,29 @@ export const AddClientForm = ({ closeHandler }) => {
                                                 className="form-control"
                                                 id="city"
                                                 name="city"
-                                                value={state.city}
+                                                value={clientState.city}
                                                 onChange={onInputChanged}
                                             />
                                         </div >
                                         <div className="col-sm-12">
-                                            <label htmlFor="staet" className="form-label">State:</label>
+                                            <label htmlFor="state" className="form-label">State:</label>
                                             <input
                                                 type="text"
                                                 className="form-control"
-                                                id="staet"
-                                                name="staet"
-                                                value={state.staet}
+                                                id="state"
+                                                name="state"
+                                                value={clientState.state}
                                                 onChange={onInputChanged}
                                             />
                                         </div >
                                         <div className="col-sm-12">
-                                            <label htmlFor="staet" className="form-label">Zip:</label>
+                                            <label htmlFor="zip" className="form-label">Zip:</label>
                                             <input
                                                 type="text"
                                                 className="form-control"
                                                 id="zip"
                                                 name="zip"
-                                                value={state.zip}
+                                                value={clientState.zip}
                                                 onChange={onInputChanged}
                                             />
                                         </div >
