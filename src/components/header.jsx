@@ -2,12 +2,20 @@ import { useState } from "react";
 import { NavLink } from "react-router-dom";
 
 
-export const Header = function () {
+export const Header = () => {
     const [isToggleOpen, setIsToggleOpen] = useState(false);
 
     const toggleDropdown = () => {
         setIsToggleOpen(!isToggleOpen)
     }
+
+    const bodyEventListener = ({ target }) => {
+        if (target.className !== "btn btn-outline-primary dropdown-toggle show") {
+            setIsToggleOpen(false)
+        }
+    }
+
+    window.addEventListener("click", bodyEventListener)
 
     const pages = [
         "docket",
@@ -50,9 +58,9 @@ export const Header = function () {
                         </form> */}
 
                         <div className="dropdown text-end">
-                            <button type="button" 
+                            <button type="button"
                                 className={`btn btn-outline-primary dropdown-toggle ${isToggleOpen ? "show" : ""}`}
-                                data-bs-toggle="dropdown" 
+                                data-bs-toggle="dropdown"
                                 onClick={toggleDropdown}
                                 aria-expanded={isToggleOpen ? "true" : "false"}>Admin</button>
                             <ul className={`dropdown-menu text-small ${isToggleOpen ? "show" : ""}`}>
