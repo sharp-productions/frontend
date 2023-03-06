@@ -58,7 +58,7 @@ export const ClientsList = () => {
     }
 
     return (
-        <div className="modal-open">
+        <div className="container modal-open">
             <style>{`
                 .table-hover div.row:hover {
                     background-color: #ececec;
@@ -79,10 +79,25 @@ export const ClientsList = () => {
                 .table  a {
                     text-decoration: none;
                 }
+                .resource-list-header {
+                    position: relative;
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: center;
+                    align-items: center;
+                }
+                .resource-list-header h2 {}
+                .resource-list-header button {
+                    position: absolute;
+                    right: 0;
+                }
             `}</style>
             <Header />
-            <h2>Clients</h2><button type="button" onClick={toggleShowAddClientForm}>Create Client</button>
-            <div className="container table table-hover">
+            <div className="resource-list-header">
+                <h2>Clients</h2>
+                <button className="btn btn-primary" type="button" onClick={toggleShowAddClientForm}>Create Client</button>
+            </div>
+            <div className="table table-hover">
                 <div className="th">
                     <div className="row">
                         <div className="col-3 td">Last Name</div>

@@ -44,21 +44,21 @@ export const CasesList = () => {
         return (
             cases.map(caes => (
                 <Link key={caes.id} href={`/clients/${caes.id}`}>
-                {/* <a key={caes.id} href={`/clients/${caes.id}`}> */}
+                    {/* <a key={caes.id} href={`/clients/${caes.id}`}> */}
                     <div className="row">
                         <div className="col-3">{caes.court}</div>
                         <div className="col-3">{caes.caseNumber}</div>
                         <div className="col-3">{caes.judge}</div>
                         <div className="col-3">{caes.client}</div>
                     </div>
-                {/* </a> */}
+                    {/* </a> */}
                 </Link >
             ))
         )
     }
 
     return (
-        <div className="modal-open">
+        <div className="container modal-open">
             <style>{`
                 .table-hover div.row:hover {
                     background-color: #ececec;
@@ -79,10 +79,25 @@ export const CasesList = () => {
                 .table  a {
                     text-decoration: none;
                 }
+                .resource-list-header {
+                    position: relative;
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: center;
+                    align-items: center;
+                }
+                .resource-list-header h2 {}
+                .resource-list-header button {
+                    position: absolute;
+                    right: 0;
+                }
             `}</style>
             <Header />
-            <h2>Cases</h2><button type="button" onClick={toggleShowAddCaseForm}>Create Case</button>
-            <div className="container table table-hover">
+            <div className="resource-list-header">
+                <h2>Cases</h2>
+                <button className= "btn btn-primary" type="button" onClick={toggleShowAddCaseForm}>Create Case</button>
+            </div>
+            <div className="table table-hover">
                 <div className="th">
                     <div className="row">
                         <div className="col-3 td">Court</div>
