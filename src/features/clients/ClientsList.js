@@ -79,21 +79,21 @@ export const ClientsList = () => {
                 .table  a {
                     text-decoration: none;
                 }
-                .resource-list-header {
+                .resource-page-header {
                     position: relative;
                     display: flex;
                     flex-direction: row;
                     justify-content: center;
                     align-items: center;
                 }
-                .resource-list-header h2 {}
-                .resource-list-header button {
+                .resource-page-header h2 {}
+                .resource-page-header button {
                     position: absolute;
                     right: 0;
                 }
             `}</style>
             <Header />
-            <div className="resource-list-header">
+            <div className="resource-page-header">
                 <h2>Clients</h2>
                 <button className="btn btn-primary" type="button" onClick={toggleShowAddClientForm}>Create Client</button>
             </div>

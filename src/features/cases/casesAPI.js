@@ -35,6 +35,11 @@ export const deleteCase = (caseId) => {
 
 }
 
-export const updateCase = (caseId) => {
-
-}
+export const updateCase = (caseId) => createAsyncThunk('cases/updateCase', async (formData) => {
+    const response = await fetch(`${API_DOMAIN}/cases/${formData.id}`, {
+        method: 'PUT',
+        credentials: 'include',
+        body: new URLSearchParams(formData)
+    })
+    return response.json();
+})

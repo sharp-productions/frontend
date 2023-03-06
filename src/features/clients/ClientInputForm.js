@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux'
 
 import { createClient, updateClient } from './clientsAPI'
 
-export const ClientInputForm = ({ closeHandler, mode, client }) => {
+export const ClientInputForm = ({ client, closeHandler, mode }) => {
     client = client || {}
     const [clientState, setClientState] = useState({
                 id: client.id || "",
