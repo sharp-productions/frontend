@@ -19,7 +19,6 @@ export const ClientInputForm = ({ closeHandler, mode, client }) => {
                 state: client.state || "",
                 zip: client.zip || ""
     })
-    console.log("MODE: ", mode)
 
     const dispatch = useDispatch()
 

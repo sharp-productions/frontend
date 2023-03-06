@@ -21,12 +21,18 @@ export function Login() {
         })
     }
 
+    const handleKeyDown = function({ key }) {
+        if (key === 'Enter') {
+            handleSubmit()
+        }
+    }
+
     const handleSubmit = async () => {
         const { email, password } = state;
         const formData = new FormData();
         formData.append("email", email);
         formData.append("password", password);
-        try {            
+        try {
             await dispatch(authenticate(formData)).unwrap();
             navigate("/docket")
         } catch (error) {
@@ -87,7 +93,7 @@ export function Login() {
                         <label htmlFor="email">Enter your email:</label>
                     </div>
                     <div className="form-floating">
-                        <input type="password" name="password" className="form-control" id="password" placeholder="Password" onChange={handleInput} required />
+                        <input type="password" name="password" className="form-control" id="password" placeholder="Password" onChange={handleInput} onKeyDown={handleKeyDown} required />
                         <label htmlFor="password">Enter your password:</label>
                     </div>
                     <button className="w-100 btn btn-lg btn-primary" type="button" onClick={handleSubmit}>Sign in</button>

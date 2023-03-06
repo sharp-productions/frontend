@@ -22,7 +22,6 @@ export const clientsSlice = createSlice({
       state = state.push(newClient)
     })
     .addCase(updateClient.fulfilled, (applicationState, action) => {
-      console.log("action.payload:", action.payload)
         const {
             firstName,
             lastName,
@@ -39,7 +38,6 @@ export const clientsSlice = createSlice({
         } = action.payload
         const id = _links.self.href.split("/users/")[1]
         const existingClient = applicationState.find(client => client.id === +id)
-        console.log("existingClient:", existingClient)
         if (existingClient) {
             existingClient.firstName = firstName
             existingClient.lastName = lastName
