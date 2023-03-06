@@ -7,7 +7,7 @@ import { logout } from "./logoutAPI";
 export const Logout = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    
+
     const handleLogout = async () => {
         try {
             const responseStatus = await dispatch(logout()).unwrap();
