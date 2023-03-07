@@ -58,7 +58,7 @@ export const ClientsList = () => {
     }
 
     return (
-        <div className="container modal-open">
+        <>
             <style>{`
                 .table-hover div.row:hover {
                     background-color: #ececec;
@@ -93,25 +93,27 @@ export const ClientsList = () => {
                 }
             `}</style>
             <Header />
-            <div className="resource-page-header">
-                <h2>Clients</h2>
-                <button className="btn btn-primary" type="button" onClick={toggleShowAddClientForm}>Create Client</button>
-            </div>
-            <div className="table table-hover">
-                <div className="th">
-                    <div className="row">
-                        <div className="col-3 td">Last Name</div>
-                        <div className="col-3 td">Preferred Name</div>
-                        <div className="col-3 td">Phone</div>
-                        <div className="col-3 td">Email</div>
+            <div className="container modal-open">
+                <div className="resource-page-header">
+                    <h2>Clients</h2>
+                    <button className="btn btn-primary" type="button" onClick={toggleShowAddClientForm}>Create Client</button>
+                </div>
+                <div className="table table-hover">
+                    <div className="th">
+                        <div className="row">
+                            <div className="col-3 td">Last Name</div>
+                            <div className="col-3 td">Preferred Name</div>
+                            <div className="col-3 td">Phone</div>
+                            <div className="col-3 td">Email</div>
+                        </div>
+                    </div>
+                    <div className="tbody">
+                        {renderedClients()}
                     </div>
                 </div>
-                <div className="tbody">
-                    {renderedClients()}
-                </div>
+                {clients.length === 0 && emptyState()}
+                {showAddClientForm && <ClientInputForm mode="add" closeHandler={toggleShowAddClientForm} />}
             </div>
-            {clients.length === 0 && emptyState()}
-            {showAddClientForm && <ClientInputForm mode="add" closeHandler={toggleShowAddClientForm} />}
-        </div>
+        </>
     )
 }

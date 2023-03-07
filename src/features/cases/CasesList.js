@@ -58,7 +58,7 @@ export const CasesList = () => {
     }
 
     return (
-        <div className="container modal-open">
+        <>
             <style>{`
                 .table-hover div.row:hover {
                     background-color: #ececec;
@@ -93,25 +93,27 @@ export const CasesList = () => {
                 }
             `}</style>
             <Header />
-            <div className="resource-page-header">
-                <h2>Cases</h2>
-                <button className= "btn btn-primary" type="button" onClick={toggleShowAddCaseForm}>Create Case</button>
-            </div>
-            <div className="table table-hover">
-                <div className="th">
-                    <div className="row">
-                        <div className="col-3 td">Court</div>
-                        <div className="col-3 td">Case Number</div>
-                        <div className="col-3 td">Judge</div>
-                        <div className="col-3 td">Client</div>
+            <div className="container modal-open">
+                <div className="resource-page-header">
+                    <h2>Cases</h2>
+                    <button className="btn btn-primary" type="button" onClick={toggleShowAddCaseForm}>Create Case</button>
+                </div>
+                <div className="table table-hover">
+                    <div className="th">
+                        <div className="row">
+                            <div className="col-3 td">Court</div>
+                            <div className="col-3 td">Case Number</div>
+                            <div className="col-3 td">Judge</div>
+                            <div className="col-3 td">Client</div>
+                        </div>
+                    </div>
+                    <div className="tbody">
+                        {renderedCases()}
                     </div>
                 </div>
-                <div className="tbody">
-                    {renderedCases()}
-                </div>
+                {cases.length === 0 && emptyState()}
+                {showAddCaseForm && <AddCaseForm closeHandler={toggleShowAddCaseForm} />}
             </div>
-            {cases.length === 0 && emptyState()}
-            {showAddCaseForm && <AddCaseForm closeHandler={toggleShowAddCaseForm} />}
-        </div>
+        </>
     )
 }
