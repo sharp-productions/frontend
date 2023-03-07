@@ -1,5 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
+import { handler403 } from '../../utilities/handler403';
+
 const API_DOMAIN = process.env.REACT_APP_API_DOMAIN
 
 export const createClient = createAsyncThunk('clients/createClient', async (formData) => {
@@ -8,6 +10,7 @@ export const createClient = createAsyncThunk('clients/createClient', async (form
         credentials: 'include',
         body: new URLSearchParams(formData)
     })
+    .then(handler403)
     return response.json();
 })
 
@@ -16,6 +19,7 @@ export const getClients = createAsyncThunk('clients/getClients', async () => {
         method: 'GET',
         credentials: 'include'
     })
+    .then(handler403)
     return response.json();
 })
 
@@ -24,6 +28,7 @@ export const getClient = createAsyncThunk('clients/getClient', async (clientId) 
         method: 'GET',
         credentials: 'include'
     })
+    .then(handler403)
     return response.json();
 })
 
@@ -37,5 +42,6 @@ export const updateClient = createAsyncThunk('clients/updateClient', async (form
         credentials: 'include',
         body: new URLSearchParams(formData)
     })
+    .then(handler403)
     return response.json();
 })

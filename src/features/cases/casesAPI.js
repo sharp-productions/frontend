@@ -1,4 +1,5 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
+import { handler403 } from '../../utilities/handler403';
 
 const API_DOMAIN = process.env.REACT_APP_API_DOMAIN
 
@@ -8,6 +9,7 @@ export const createCase = createAsyncThunk('cases/createCase', async (formData) 
         credentials: 'include',
         body: new URLSearchParams(formData)
     })
+    .then(handler403)
     return response.json();
 })
 
@@ -16,6 +18,7 @@ export const getCases = createAsyncThunk('cases/getCases', async () => {
         method: 'GET',
         credentials: 'include'
     })
+    .then(handler403)
     return response.json();
 })
 
@@ -24,6 +27,7 @@ export const getCasesByClientId = createAsyncThunk('cases/getCasesByClientId', a
         method: 'GET',
         credentials: 'include'
     })
+    .then(handler403)
     return response.json();
 })
 
@@ -41,5 +45,6 @@ export const updateCase = (caseId) => createAsyncThunk('cases/updateCase', async
         credentials: 'include',
         body: new URLSearchParams(formData)
     })
+    .then(handler403)
     return response.json();
 })
