@@ -1,20 +1,35 @@
-import { useState } from "react"
-import { useSelector } from "react-redux"
+import { useEffect, useState } from "react"
+import { useDispatch, useSelector } from "react-redux"
 import { useParams } from "react-router-dom"
 
 import { Header } from "../../components/header"
 import { ClientInputForm } from "./ClientInputForm"
+import { getClient } from "./clientsAPI"
 
 export const ClientDetail = () => {
     const [showClientInputForm, setShowClientInputForm] = useState(false)
+    const [client, setClient] = useState({})
+    const dispatch = useDispatch()
     const params = useParams();
     const { clientId } = params;
 
-    const client = useSelector(state =>
+    const cachedClient = useSelector(state =>
         state.clients.find(client => {
             return client.id === +clientId
         })
     )
+
+    useEffect(() => {
+        if (cachedClient) {
+            setClient(cachedClient)
+        } else {
+            const freshClient = dispatch(getClient(clientId))
+            freshClient.then(response => {
+                setClient(response.payload)
+            })
+        }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
 
     const toggleShowClientInputForm = () => {
         setShowClientInputForm(!showClientInputForm)
@@ -53,7 +68,7 @@ export const ClientDetail = () => {
             `}</style>
             <Header />
             <div className="resource-page-header">
-            <a href="/clients">Back to Clients listview</a>
+                <a href="/clients">Back to Clients listview</a>
                 <h2>Client: {client.firstName} {client.lastName}</h2>
                 <button className="btn btn-primary" type="button" onClick={toggleShowClientInputForm}>Update Client Info</button>
             </div>

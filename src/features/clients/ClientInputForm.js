@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
+import { useNavigate} from 'react-router-dom'
 
 import { createClient, updateClient } from './clientsAPI'
 
@@ -17,16 +18,18 @@ export const ClientInputForm = ({ client, closeHandler, mode }) => {
                 address2: client.address2 || "",
                 city: client.city || "",
                 state: client.state || "",
-                zip: client.zip || ""
+                zip: client.zip || "",
+                createCase: true
     })
 
     const dispatch = useDispatch()
+    const navigate = useNavigate()
 
     const onInputChanged = ({ target }) => {
-        const { name, value } = target
+        const { checked, name, type, value } = target
         setClientState({
             ...clientState,
-            [name]: value
+            [name]: type === "checkbox" ? checked : value
         })
     }
 
@@ -34,8 +37,17 @@ export const ClientInputForm = ({ client, closeHandler, mode }) => {
         if (clientState.firstName && clientState.lastName && (clientState.phone || clientState.email)) {
             if (mode === "add") {
                 delete clientState.id
-                dispatch(createClient(clientState))
+                const response = dispatch(createClient(clientState))
+                if (clientState.createCase) {
+                    response.then(data => {
+                        if (data.type === "clients/createClient/fulfilled") {
+                            const clientId = data.payload._links.self.href.split("/users/")[1]
+                            navigate(`/cases?createFor=${clientId}`)
+                        }
+                    })
+                }
             } else {
+                delete clientState.createCase
                 dispatch(updateClient(clientState))
             }
             setClientState({
@@ -50,7 +62,8 @@ export const ClientInputForm = ({ client, closeHandler, mode }) => {
                 address2: "",
                 city: "",
                 state: "",
-                zip: ""
+                zip: "",
+                createCase: true
             })
             closeHandler()
         }
@@ -197,6 +210,17 @@ export const ClientInputForm = ({ client, closeHandler, mode }) => {
                                                 onChange={onInputChanged}
                                             />
                                         </div >
+                                        {mode === "add" && <div className="col-sm-12 form-check">
+                                        <label htmlFor="createCase" className="form-check-label">Create default case</label>
+                                            <input
+                                                type="checkbox"
+                                                className="form-check-input"
+                                                id="createCase"
+                                                name="createCase"
+                                                checked={clientState.createCase}
+                                                onChange={onInputChanged}
+                                            />
+                                        </div >}
                                     </div>
                                 </form >
                             </div>

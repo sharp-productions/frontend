@@ -2,13 +2,17 @@ import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
 
 import { createCase, updateCase } from './casesAPI'
+import { updateCaseLocally } from './casesSlice'
 
-export const CaseInputForm = ({ caes, closeHandler, mode }) => {
+
+export const CaseInputForm = ({ caes, clientId, clientFirstName, clientLastName, closeHandler, mode }) => {
     caes = caes || {}
     const [caseState, setCaseState] = useState({
         id: caes.id || "",
         caseNumber: caes.caseNumber || "",
-        client: caes.client || "",
+        clientId: caes.clientId || clientId || "",
+        clientFirstName: caes.clientFirstName || clientFirstName || "",
+        clientLastName: caes.clientLastName || clientLastName || "",
         court: caes.court || "",
         jurisdiction: caes.jurisdiction || "",
         judge: caes.judge || "",
@@ -26,16 +30,25 @@ export const CaseInputForm = ({ caes, closeHandler, mode }) => {
     }
 
     const onSaveCaseClicked = () => {
-        if (caseState.caseNumber) {
+        if (caseState.clientId) {
             if (mode === "add") {
                 delete caseState.id
-                dispatch(createCase(caseState))
+                dispatch(createCase(caseState)).then(response => {
+                    dispatch(updateCaseLocally({
+                        id: +response.payload._links.self.href.split("/cases/")[1],
+                        clientFirstName: caseState.clientFirstName,
+                        clientLastName: caseState.clientLastName
+                    }))
+                })
+
             } else {
                 dispatch(updateCase(caseState))
             }
             setCaseState({
                 caseNumber: "",
-                client: "",
+                clientId: "",
+                clientFirstName: "",
+                clientLastName: "",
                 court: "",
                 jurisdiction: "",
                 judge: "",
@@ -65,14 +78,14 @@ export const CaseInputForm = ({ caes, closeHandler, mode }) => {
                                 <h2>{"mode" === "add" ? "Add a New Client" : "Client Details"}</h2>
                                 <form className="needs-validation" noValidate>
                                     <div className="row g-3">
-                                    <div className="col-sm-12">
+                                        <div className="col-sm-12">
                                             <label htmlFor="lastName" className="form-label">Client:</label>
                                             <input
                                                 type="text"
                                                 className="form-control"
                                                 id="client"
                                                 name="client"
-                                                value={caseState.client}
+                                                value={`${caseState.clientFirstName} ${caseState.clientLastName}`}
                                                 onChange={onInputChanged}
                                             />
                                         </div>
@@ -121,7 +134,7 @@ export const CaseInputForm = ({ caes, closeHandler, mode }) => {
                                             />
                                         </div>
                                         <div className="col-sm-12">
-                                            <label htmlFor="phone" className="form-label">Prosecutor:</label>
+                                            <label htmlFor="phone" className="form-label">Prosecutor/Opposing Counsel:</label>
                                             <input
                                                 type="text"
                                                 className="form-control"
@@ -136,7 +149,7 @@ export const CaseInputForm = ({ caes, closeHandler, mode }) => {
                             </div>
                         </div>
                         <div className="modal-footer">
-                            <button type="button" className="btn btn-secondary"  onClick={closeHandler}>Close</button>
+                            <button type="button" className="btn btn-secondary" onClick={closeHandler}>Close</button>
                             <button type="button" className="btn btn-primary" onClick={onSaveCaseClicked}>Save Client</button>
                         </div>
                     </div>

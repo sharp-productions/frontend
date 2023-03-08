@@ -10,7 +10,16 @@ const initialState = []
 export const casesSlice = createSlice({
   name: 'cases',
   initialState,
-  reducers: {},
+  reducers: {
+    updateCaseLocally (state, action) {
+        const { id, clientFirstName, clientLastName } = action.payload
+        const existingCase = state.find(caseInstance => caseInstance.id === id)
+        if (existingCase) {
+          existingCase.client.firstName = clientFirstName
+          existingCase.client.lastName = clientLastName
+        }
+    }
+  },
   extraReducers(builder) {
     builder
     .addCase(getCases.fulfilled, (state, action) => {
@@ -18,7 +27,9 @@ export const casesSlice = createSlice({
     })
     .addCase(createCase.fulfilled, (state, action) => {
       const newCase = action.payload
-      newCase.id = newCase._links.self.href.split("/cases/")[1]
+      newCase.id = +newCase._links.self.href.split("/cases/")[1]
+      newCase.client = {firstName: "", lastName:"", id: newCase._links.client.href.split("/users/")[1]}
+      newCase.lawyer = {firstName: "", lastName:"", id: newCase._links.lawyer.href.split("/users/")[1]}
       state = state.push(newCase)
     })
     // .addCase(updateCase.fulfilled, (state, action) => {
@@ -45,6 +56,6 @@ export const casesSlice = createSlice({
   }
 })
 
-// export const { } = casesSlice.actions;
+export const { updateCaseLocally } = casesSlice.actions;
 
 export default casesSlice.reducer

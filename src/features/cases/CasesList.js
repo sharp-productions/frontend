@@ -1,20 +1,35 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { Link } from 'react-router-dom'
+import { Link, useSearchParams } from 'react-router-dom'
 
 import { Header } from "../../components/header"
-import { AddCaseForm } from './AddCaseForm'
+import { CaseInputForm } from './CaseInputForm'
 import { getCases } from './casesAPI'
+import { getClient } from '../clients/clientsAPI'
 
 export const CasesList = () => {
 
     const cases = useSelector(state => state.cases)
     const dispatch = useDispatch()
+    const [searchParams, setSearchParams] = useSearchParams()
+    const createFor = searchParams.get("createFor")
 
     const [showAddCaseForm, setShowAddCaseForm] = useState(false)
+    const [client, setClient] = useState({})
 
     useEffect(() => {
         dispatch(getCases())
+        if (createFor) {
+            // get client from clientId provided by createFor
+            dispatch(getClient(createFor))
+            .then(response => {
+                if (response.type === "clients/getClient/fulfilled") {
+                    setClient(response.payload)
+                    setShowAddCaseForm(true)
+                }
+            })
+
+        }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
@@ -46,10 +61,10 @@ export const CasesList = () => {
                 <Link key={caes.id} href={`/clients/${caes.id}`}>
                     {/* <a key={caes.id} href={`/clients/${caes.id}`}> */}
                     <div className="row">
-                        <div className="col-3">{caes.court}</div>
-                        <div className="col-3">{caes.caseNumber}</div>
-                        <div className="col-3">{caes.judge}</div>
-                        <div className="col-3">{caes.client}</div>
+                        <div className="col-3">{caes.court || "None"}</div>
+                        <div className="col-3">{caes.caseNumber || "None"}</div>
+                        <div className="col-3">{caes.judge || "None"}</div>
+                        <div className="col-3">{`${caes.client.firstName} ${caes.client.lastName}`}</div>
                     </div>
                     {/* </a> */}
                 </Link >
@@ -112,7 +127,7 @@ export const CasesList = () => {
                     </div>
                 </div>
                 {cases.length === 0 && emptyState()}
-                {showAddCaseForm && <AddCaseForm closeHandler={toggleShowAddCaseForm} />}
+                {showAddCaseForm && <CaseInputForm mode="add" clientId={createFor} clientFirstName={client.firstName} clientLastName={client.lastName} closeHandler={toggleShowAddCaseForm} />}
             </div>
         </>
     )
