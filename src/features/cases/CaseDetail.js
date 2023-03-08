@@ -87,7 +87,7 @@ export const CaseDetail = () => {
             </div>
             <div>
                 <div className="">
-                    <p>Client: {caseInstance.client.firstName} {caseInstance.client.firstName}</p>
+                    <p>Client: {caseInstance.client.firstName} {caseInstance.client.lastName}</p>
                     <p>Judge: {caseInstance.judge}</p>
                     <p>Prosecutor: {caseInstance.prosecutor}</p>
                 </div>

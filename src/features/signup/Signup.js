@@ -19,10 +19,11 @@ export const Signup = () => {
     }
 
     const handleSubmit = async () => {
-        const { firstName, lastName, email, password } = state;
+        const { firstName, lastName, phone, email, password } = state;
         const formData = new FormData();
         formData.append("firstName", firstName);
         formData.append("lastName", lastName);
+        formData.append("phone", phone);
         formData.append("email", email);
         formData.append("password", password);
         try {
@@ -30,7 +31,7 @@ export const Signup = () => {
             navigate("/login");
         } catch (error) {
             // TODO: create proper error message
-        }        
+        }
     }
 
     return (
