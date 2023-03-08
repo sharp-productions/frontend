@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 import {
   createCase,
+  getCase,
   getCases,
   // updateCase
 } from './casesAPI';
@@ -24,6 +25,13 @@ export const casesSlice = createSlice({
     builder
     .addCase(getCases.fulfilled, (state, action) => {
       return action.payload
+    })
+    .addCase(getCase.fulfilled, (state, action) => {
+      const newCase = action.payload
+      newCase.id = +newCase._links.self.href.split("/cases/")[1]
+      newCase.client = {}
+      newCase.client.id = +newCase._links.client.href.split("/clients/")[1]
+      return [newCase]
     })
     .addCase(createCase.fulfilled, (state, action) => {
       const newCase = action.payload

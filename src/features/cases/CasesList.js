@@ -11,7 +11,7 @@ export const CasesList = () => {
 
     const cases = useSelector(state => state.cases)
     const dispatch = useDispatch()
-    const [searchParams, setSearchParams] = useSearchParams()
+    const [searchParams] = useSearchParams()
     const createFor = searchParams.get("createFor")
 
     const [showAddCaseForm, setShowAddCaseForm] = useState(false)
@@ -22,12 +22,12 @@ export const CasesList = () => {
         if (createFor) {
             // get client from clientId provided by createFor
             dispatch(getClient(createFor))
-            .then(response => {
-                if (response.type === "clients/getClient/fulfilled") {
-                    setClient(response.payload)
-                    setShowAddCaseForm(true)
-                }
-            })
+                .then(response => {
+                    if (response.type === "clients/getClient/fulfilled") {
+                        setClient(response.payload)
+                        setShowAddCaseForm(true)
+                    }
+                })
 
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -55,22 +55,17 @@ export const CasesList = () => {
 
     // NOTE: the function below uses the variable "caes"
     // rather than "case" because "case" is a keyword in javascript
-    const renderedCases = () => {
-        return (
-            cases.map(caes => (
-                <Link key={caes.id} href={`/clients/${caes.id}`}>
-                    {/* <a key={caes.id} href={`/clients/${caes.id}`}> */}
-                    <div className="row">
-                        <div className="col-3">{caes.court || "None"}</div>
-                        <div className="col-3">{caes.caseNumber || "None"}</div>
-                        <div className="col-3">{caes.judge || "None"}</div>
-                        <div className="col-3">{`${caes.client.firstName} ${caes.client.lastName}`}</div>
-                    </div>
-                    {/* </a> */}
-                </Link >
-            ))
-        )
-    }
+    const renderedCases = () => cases.map(caes => (
+        <Link key={caes.id} to={`/cases/${caes.id}`}>
+            <div className="row">
+                <div className="col-3 td">{caes.court || "None"}</div>
+                <div className="col-3 td">{caes.caseNumber || "None"}</div>
+                <div className="col-3 td">{caes.judge || "None"}</div>
+                <div className="col-3 td">{`${caes.client.firstName} ${caes.client.lastName}`}</div>
+            </div>
+        </Link >
+    ))
+
 
     return (
         <>

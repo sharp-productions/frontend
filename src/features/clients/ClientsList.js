@@ -38,24 +38,17 @@ export const ClientsList = () => {
         )
     }
 
-    const renderedClients = () => {
-        return (
-            clients.map(client => (
+    const renderedClients = () => clients.map(client => (
+        <Link key={client.id} to={`/clients/${client.id}`} >
+            <div className="row">
+                <div className="col-3 td">{client.lastName}</div>
+                <div className="col-3 td" >{client.firstName}</div>
+                <div className="col-3 td" >{client.phone}</div>
+                <div className="col-3 td" >{client.email}</div>
+            </div >
+        </Link >
+    ))
 
-                <Link key={client.id} to={`/clients/${client.id}`} >
-                    {/* <a key={client.id} href={`/clients/${client.id}`}></a> */}
-                    <div className="row">
-                        <div className="col-3 td">{client.lastName}</div>
-                        <div className="col-3 td" >{client.firstName}</div>
-                        <div className="col-3 td" >{client.phone}</div>
-                        <div className="col-3 td" >{client.email}</div>
-                    </div >
-                    {/* </a> */}
-                </Link >
-
-            ))
-        )
-    }
 
     return (
         <>

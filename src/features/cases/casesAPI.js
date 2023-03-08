@@ -31,9 +31,14 @@ export const getCasesByClientId = createAsyncThunk('cases/getCasesByClientId', a
     return response.json();
 })
 
-export const getCase = (caseId) => {
-
-}
+export const getCase = createAsyncThunk('cases/getCase', async (caseId) => {
+    const response = await fetch(`${API_DOMAIN}/cases/${caseId}`, {
+        method: 'GET',
+        credentials: 'include'
+    })
+    .then(handler403)
+    return response.json();
+})
 
 export const deleteCase = (caseId) => {
 

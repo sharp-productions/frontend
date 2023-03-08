@@ -1,9 +1,10 @@
-import { useState } from "react"
-import { useSelector } from "react-redux"
+import { useEffect, useState } from "react"
+import { useDispatch, useSelector } from "react-redux"
 import { useParams } from "react-router-dom"
 
 import { Header } from "../../components/header"
 import { CaseInputForm } from "./CaseInputForm"
+import { getCase } from "./casesAPI"
 // import { AddEventForm } from "../events/AddEventForm"
 // import { EventsList } from "../events/EventsList"
 // import { AddChargeForm } from "../charges/AddChargeForm"
@@ -16,22 +17,38 @@ import { CaseInputForm } from "./CaseInputForm"
 
 export const CaseDetail = () => {
     const [showCaseInputForm, setShowCaseInputForm] = useState(false)
+    const [caseInstance, setCaseInstance] = useState({
+        client: {}
+    })
+    const dispatch = useDispatch()
     const params = useParams()
     const { caseId } = params;
 
     // NOTE: the function below uses the variable "caes"
     // rather than "case" because "case" is a keyword in javascript
-    const caes = useSelector(state =>
+    const cachedCase = useSelector(state =>
         state.cases.find(caes => {
             return caes.id === +caseId
         })
     )
 
+    useEffect(() => {
+        if (cachedCase) {
+            setCaseInstance(cachedCase)
+        } else {
+            const freshCase = dispatch(getCase(caseId))
+            freshCase.then(response => {
+                setCaseInstance(response.payload)
+            })
+        }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
+
     const toggleShowCaseInputForm = () => {
         setShowCaseInputForm(!showCaseInputForm)
     }
 
-    if (!caes) {
+    if (!caseInstance) {
         return (
             <>
                 <Header />
@@ -65,15 +82,14 @@ export const CaseDetail = () => {
             <Header />
             <div className="resource-page-header">
                 <a href="/cases">Back to Cases listview</a>
-                <h2>Case Number: {caes.caseNumber}</h2>
+                <h2>Case Number: {caseInstance.caseNumber || "None"}</h2>
                 <button className="btn btn-primary" type="button" onClick={toggleShowCaseInputForm}>Update Case Info</button>
             </div>
             <div>
                 <div className="">
-                    <h2>Case Number {caes.caseNumber}</h2>
-                    <p>Client: {caes.client}</p>
-                    <p>Judge: {caes.judge}</p>
-                    <p>Prosecutor: {caes.prosecutor}</p>
+                    <p>Client: {caseInstance.client.firstName} {caseInstance.client.firstName}</p>
+                    <p>Judge: {caseInstance.judge}</p>
+                    <p>Prosecutor: {caseInstance.prosecutor}</p>
                 </div>
                 {/* <AddEventForm />
                 <EventsList />
@@ -87,7 +103,7 @@ export const CaseDetail = () => {
                 <AddNoteForm />
                 <NotesList /> */}
             </div>
-            {showCaseInputForm && <CaseInputForm mode="edit" client={caes} closeHandler={toggleShowCaseInputForm} />}
+            {showCaseInputForm && <CaseInputForm mode="edit" client={caseInstance} closeHandler={toggleShowCaseInputForm} />}
         </div>
     )
 }
